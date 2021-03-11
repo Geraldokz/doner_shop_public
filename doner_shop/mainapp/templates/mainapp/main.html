@@ -1,0 +1,29 @@
+{% extends 'mainapp/template.html' %}
+
+{% block title %}Главная{% endblock %}
+
+
+{% block content %}
+<div class="flex__container">
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <ul class="category__list">
+        {% for category in categories %}
+        <li class="category__item">
+            <a href="{{ category.get_absolute_url }}">
+                <div class="category__box">
+                    <h3>{{category.name}}</h3>
+                </div>
+            </a>
+        </li>
+        {%endfor%}
+    </ul>
+</div>
+{% endblock %}

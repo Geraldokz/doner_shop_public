@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <!--    , initial-scale=1, shrink-to-fit=no-->
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'mainapp/css/template.css'  %}">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <div class="container">
+                <div class="header__body">
+                    <a href="{% url 'mainapp:menu_page' %}" class="header__logo">
+                        <img src="{% static 'mainapp/menu_icons/menu.png' %}" alt="">
+                    </a>
+                    <a href="{% url 'mainapp:main_page' %}" class="header__logo">
+                        <img src="{% static 'mainapp/menu_icons/home.png' %}" alt="">
+                    </a>
+                    <a href="{% url 'mainapp:cart' %}" class="header__logo">
+                        <img src="{% static 'mainapp/menu_icons/current_order.png' %}" alt="">
+                    </a>
+                </div>
+            </div>
+        </header>
+        <main class="content">
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

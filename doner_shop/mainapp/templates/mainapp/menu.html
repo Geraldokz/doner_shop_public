@@ -1,0 +1,32 @@
+{% extends 'mainapp/template.html' %}
+
+{% block title %}Меню{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-danger" role="alert">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="list-group">
+    <a href="{% url 'mainapp:orders-history' %}" class="list-group-item list-group-item-action list-group-item-primary">
+        Список заказов
+    </a>
+    <a href="{% url 'orderstat:statistics' %}" class="list-group-item list-group-item-action list-group-item-info">
+        Статистика
+    </a>
+    <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">
+        Добавить категорию
+    </a>
+    <a href="#" class="list-group-item list-group-item-action list-group-item-success">
+        Добавить товар
+    </a>
+    <a href="/logout" class="list-group-item list-group-item-action list-group-item-danger">
+        Выход
+    </a>
+</div>
+{% endblock %}

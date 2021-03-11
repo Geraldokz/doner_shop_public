@@ -1,0 +1,85 @@
+{% extends 'mainapp/template.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-secondary" role="alert">
+  {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="table-responsive table-sm">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Товар</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order_item in object.products.all %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ order_item.product.name }}</td>
+                <td>
+                    <p class="">{{ order_item.quantity }}</p>
+                    <div>
+                        <a href="{% url 'mainapp:remove-single-product-from-cart' order_item.product.slug %}" class="btn btn-outline-warning btn-sm mr-3 ml-1">
+                            <img class="item__quantity_icons" src="{% static 'mainapp/cart_icons/cart-minus.png' %}">
+                        </a>
+                        <a href="{% url 'mainapp:add-to-cart-from-cart' order_item.product.slug %}" class="btn btn-outline-success btn-sm">
+                            <img class="item__quantity_icons" src="{% static 'mainapp/cart_icons/cart-plus.png' %}">
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <p class="ml-1">{{ order_item.get_total_item_price }}</p>
+                    <div>
+                        <a href="{% url 'mainapp:remove-product-from-cart' order_item.product.slug %}" class="btn btn-outline-danger btn-sm ml-2">
+                            <img class="item__quantity_icons" src="{% static 'mainapp/cart_icons/cart-delete.png' %}">
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Корзина пуста</td>
+            </tr>
+            {% endfor %}
+            {% if object.get_total_price %}
+            <tr>
+                <td colspan="3"><b>Сумма заказа</b></td>
+                <td>{{ object.get_total_price }}</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+{% if object.get_total_price %}
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.code|as_crispy_field }}
+    </div>
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-warning btn-sm">Применить промокод</button>
+    </div>
+</form>
+
+<a href="{% url 'mainapp:checkout' %}" class="btn btn-primary btn-lg btn-block mt-3 mb-3">Перейти к оформлению</a>
+{% endif %}
+
+{% endblock %}

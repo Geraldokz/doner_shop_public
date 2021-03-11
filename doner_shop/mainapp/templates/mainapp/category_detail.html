@@ -1,0 +1,33 @@
+{% extends 'mainapp/template.html' %}
+
+{% load static %}
+
+{% block title %}Товары{% endblock %}
+
+{% block content %}
+<ul class="list-group">
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-primary" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% for product in products %}
+    <li class="list-group-item mb-2">
+        {{ product.name }}
+        <span class="badge badge-warning">{{product.price}} руб</span>
+        <div>
+            <a href="{{ product.get_add_to_cart_from_product_list_url }}" class="btn btn-success mt-2 mr-2">
+                <img src="{% static 'mainapp/cart_icons/cart-plus.png' %}" alt="Добавить в корзину" class="control__icon">
+            </a>
+            <a href="{{ product.get_remove_single_product_from_product_list_urls }}" class="btn btn-danger mt-2">
+                <img src="{% static 'mainapp/cart_icons/cart-minus.png' %}" alt="Удалить из корзины в корзину" class="control__icon">
+            </a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

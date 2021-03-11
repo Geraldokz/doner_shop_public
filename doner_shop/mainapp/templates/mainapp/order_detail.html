@@ -1,0 +1,51 @@
+{% extends 'mainapp/template.html' %}
+
+{% block title %}Заказ № {{ order.id }}{% endblock %}
+
+
+{% block content %}
+
+<h3>Заказ № {{ order.id }}</h3>
+
+<ul class="list-group">
+    <li class="list-group-item"><b>Продавец</b> {{ order.user.get_full_name }}</li>
+    <li class="list-group-item"><b>Тип заказа</b> {{ order.get_order_type_display }}</li>
+
+    {% if order.payment_type %}
+    <li class="list-group-item"><b>Тип оплаты</b> {{ order.get_payment_type_display }}</li>
+    {% endif %}
+
+    {% if order.coupon %}
+    <li class="list-group-item"><b>Промо-код</b> {{ order.coupon.code }}</li>
+    {% endif %}
+
+    {% if order.delivery_name %}
+    <li class="list-group-item"><b>Агрегатор</b> {{ order.get_delivery_name_display }}</li>
+    {% endif %}
+
+<!--    <li class="list-group-item"><b>Время заказа</b> {{ order.ordered_date.time }}</li>-->
+    <li class="list-group-item"><b>Дата/Время</b> {{ order.ordered_date }}</li>
+    <li class="list-group-item"><b>Сумма заказа</b> {{ order.final_price }} рублей</li>
+</ul>
+
+<h4 class='mt-2 mb-3'>Товары в заказе</h4>
+
+<table class="table table-bordered">
+    <thead class='table-primary'>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Товар</th>
+            <th scope="col">Кол-во</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order_product in order.products.all %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ order_product.product.name }}</td>
+            <td>{{ order_product.quantity }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

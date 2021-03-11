@@ -1,0 +1,64 @@
+{% extends 'mainapp/template.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %}Оформление заказа{% endblock %}
+
+
+{% block content %}
+
+<!--
+<form method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+</form>
+-->
+
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Тип заказа</label>
+        {{ form.order_type }}
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Тип оплаты</label>
+        {{ form.payment_type }}
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Название доставки</label>
+        {{ form.delivery_name }}
+    </div>
+    <h4>Заказ</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Товар</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order_item in order.products.all %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ order_item.product.name }}</td>
+                <td>{{ order_item.quantity }}</td>
+                <td>{{ order_item.get_total_item_price }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3"><b>Сумма заказа</b></td>
+                <td>{{ order.get_total_price }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-success btn-block btn-lg mb-2">Оформить заказ</button>
+</form>
+
+<script src="{% static 'mainapp/js/script.js' %}"></script>
+
+{% endblock %}
